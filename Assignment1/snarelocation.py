@@ -1,7 +1,6 @@
 # Digital-Signal-Processing
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from scipy.io import wavfile
 from scipy.signal import fftconvolve
 
@@ -25,7 +24,10 @@ def findSnarePosition(filename1,filename2):
     print(maxr)
     for i in range(len(r)):
         if r[i]>=maxr-0.1:
-            print (maxr)
+            n = 4
+            print (r[np.argsort(r)[-n:]])
+
+
 
     #maxcor = np.max(np.abs(filename1,filename2))
    # return maxcor
@@ -40,12 +42,6 @@ if __name__ == '__main__':
     y = readfile('snare.wav')
     lengthy = len(y)
     z = crossCorr(x,y)
-    t = np.corrcoef(z)
+
     maxcor = findSnarePosition('drum_loop.wav','snare.wav')
-    W = np.max(np.abs(z))
 
-
-    #print (c1)
-    print (maxcor)
-    print(W)
-    print (t)
