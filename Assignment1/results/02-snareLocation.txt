@@ -1,0 +1,5 @@
+D:\python.exe C:/Users/Timothy/PycharmProjects/Digital-Signal-Processing/Assignment1/snarelocation.py
+32767
+[32764 32765 32766 32767]
+
+Process finished with exit code 0
