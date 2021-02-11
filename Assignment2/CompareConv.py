@@ -1,8 +1,15 @@
 # Digital-Signal-Processing
 
 import numpy as np
-import scipy as sc
-import matplotlib
+import scipy as sp
+from scipy.io import wavfile
+
+
+def readfile(filename):
+
+    samplerate, data = wavfile.read(filename)
+    return data[:,0]
+
 
 
 
@@ -10,7 +17,9 @@ import matplotlib
 def ScipyCon(x,h)
     x1 = np.ones(x)  # signal
     h1 = np.ones(h)  # impulse response
-    sc.signal.convolve(x,h)
+    w = sp.signal.convolve(x1.h1)
+    return w
+
 def ConmpareConv(x,h):
 
 
@@ -33,11 +42,34 @@ def myTimeConv(x,h):
 
     return y_time
 
+#the average will need this in order to calculate the other mean stuff
+def mean(x):
+        SX = np.sum(x)
+        mx = sx/lex(x)
+        return mx
+
+#the average of the absolute difference
+def meanabsolutedifference(x,h):
+    m = np.zeros(shape=(len(x)))
+    for i in range(len(x)):
+        m[i]=abs(x[i]-h[i])
+        masd =np.sum(d)/(len(x)*2)
+        return masd
+
+
+def meandifference(x,h):
+    mx = mean(x)
+    mh = mean(h)
+    mad = mx - mh
+    return mad
 
 
 if __name__ == '__main__':
 
-
+    x = loadSoundfile(impulse-response.wav)
+    y = loadSoundfile(piano.wav)
+    lenx = len(x)
+    leny = len(y)
 
     t1 = np.linspace(0,1,num=25)
     t2 = np.linspace(1,0,num=26)
