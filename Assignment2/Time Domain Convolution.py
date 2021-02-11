@@ -6,23 +6,32 @@ import matplotlib
 
 def myTimeConv(x,h):
 # make simple rectangular signals
-    x1 = np.array(x)    #signal
-    h1 = np.array(h)    #impulse response
-    #r1[1:20] = 1.
-    #r2[20:40] = 1.
 
-    fft_x = np.fft.rfft(x1)           # fftransform the signals
-    fft_h = np.fft.rfft(h1)
+    x1 = np.ones(x)  #signal
+    h1 = np.ones(h)    #impulse response
+    print (x1)
+    print (h1)
+    fx = np.fft.rfft(x1)           # fftransform the signals
+    fh = np.fft.rfft(h1)
+   # ffx = np.squeeze(np.asarray(fx))
+    #ffh = np.squeeze(np.asarray(fh))
+   # ffx = fx.reshape(1, -1) # X.shape == (1, 2500)
+  #  ffh = fh.reshape(1, -1) # Y.shape == (1, 2)
+    fxh = np.dot(fx,fh)  # multiply the frequency spectrum of the signals
 
-    fft_xh = np.multiply(fft_x, fft_h)  # multiply the frequency spectrum of the signals
-
-    y = np.fft.irfft(fft_xh)            # ifftransform back to time-domain
+    y1 = np.fft.irfft(fxh) # ifftransform back to time-domain
+    y = np.ones(y1)
     return y
-    y.shape
+
 
 if __name__ == '__main__':
 
-    conv = myTimeConv(200,100)
-    conv.shape
-
+    x = (200,1)
+    h = (100,1)
+    # x = readfile('drum_loop.wav')
+    # lengthx = len(x)
+    # y = readfile('snare.wav')
+    # lengthy = len(y)
+    Convolution = myTimeConv(x,h)
+    print (Convolution)
 
