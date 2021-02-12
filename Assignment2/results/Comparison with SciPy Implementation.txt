@@ -1,0 +1,7 @@
+D:\python.exe C:/Users/Timothy/PycharmProjects/Digital-Signal-Processing/Assignment2/CompareConv.py
+11674.698891735514
+0.03627047410691154
+[-12600.   3904.  20980. ...   5232.  12600.  10827.]
+0.4249129295349121
+
+Process finished with exit code 0
