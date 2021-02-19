@@ -27,8 +27,8 @@ def generateSinusoidal(a,b,c,d,e):
     t = np.arange(0,d, CT)
 
     x = (amplitude)* np.sin((signal * t) + phase_radians)
-    t = np.unwrap(t)
-    x = np.unwrap(x)
+    #t = np.unwrap(t)
+    #x = np.unwrap(x)
 
     return (t,x)
 
@@ -68,17 +68,40 @@ def generateSquare(a,b,c,d,e):
 
 def computeSpectrum(x, y):
     sample_rate_Hz = y
+    N = x.size
+    print ("this is N")
+    print (N)
     st = 1/(y)   #sampling time
-    spectrum = np.fft.fft(x)
+    len_x = len(x)
+    spectrum = np.fft.fft((x)/len_x)
+
 
 
     XAbs = np.abs(spectrum)#magnitude spectrum/amplitude
+    print ("this is XAbs")
     print (XAbs)
     XPhase = np.angle(spectrum) #phase spectrum
-    #XRe = #real part
-    #XIm = #imaginary
-    f = np.fft.fftfreq(x)#frequency of bins
+    print ("this is XPhase")
+    print (XPhase)
+    XRe = spectrum[range(int((len_x)/2))] #real part
+    print ("This is XRe")
+    print (XRe)
+    XIm = []
+    for i in spectrum:
+        if i in XRe:
+            continue
+        else:
+            XIm.append(i)
+    return XIm
+        #spectrum[range(int(not (XRe)))] #imaginary
+    print("This is XIm")
+    print(XIm)
+    f = np.arange(0, N)*y/N
+    #frequency of bins
+    print ("this is f")
     print (f)
+
+    return (XAbs, XPhase, XRe, XIm, f)
 
 
 
@@ -104,5 +127,5 @@ if __name__ == '__main__':
     plt.ylabel("Generated Signal")
     plt.xlabel("Time")
     plt.show()
-    a,b,c,d,e = computeSpectrum((x),44100)
-    a2,b2,c2,d2,e2 = computeSpectrum((x2),44100)
+    (a, b, c, d, e) = computeSpectrum((x),44100)
+    #(XAbs, XPhase, XRe, XIm, f) = computeSpectrum((x2),44100)
