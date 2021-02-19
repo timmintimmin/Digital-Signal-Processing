@@ -5,7 +5,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 import scipy
 
-
+def padarray(A, size):
+    t = size - len(A)
+    return np.pad(A, pad_width=(0, t), mode='constant')
 
 def generateSinusoidal(a,b,c,d,e):
     amplitude = a
@@ -47,8 +49,8 @@ def generateSquare(a,b,c,d,e):
     sumsin = 0
     for number in sinusoidals:
         sumsin = ((1/number)*np.sin(number*2*np.pi*frequency_Hz*t))+ sumsin
-    print ("this is sumsin")
-    print (sumsin)
+    #print ("this is sumsin")
+    #print (sumsin)
 
 
     x2 = (4/(np.pi)*(sumsin))
@@ -69,28 +71,28 @@ def generateSquare(a,b,c,d,e):
 def computeSpectrum(x, y):
     sample_rate_Hz = y
     N = x.size
-    print ("this is N")
-    print (N)
-    st = 1/(y)   #sampling time
+    #print ("this is N")
+    #print (N)
+    #st = 1/(y)   #sampling time
     len_x = len(x)
     spectrum = np.fft.fft((x)/len_x)
 
 
 
     XAbs = np.abs(spectrum)#magnitude spectrum/amplitude
-    print ("this is XAbs")
-    print (XAbs)
+    #print ("this is XAbs")
+    #print (XAbs)
     length = len(spectrum)
     middle_index = length//2
 
 
     first_half = (spectrum)[:middle_index]
     XPhase = np.angle(spectrum) #phase spectrum
-    print ("this is XPhase")
-    print (XPhase)
+    #print ("this is XPhase")
+    #print (XPhase)
     XRe = np.real(first_half) #real part
-    print ("This is XRe")
-    print (XRe)
+    #print ("This is XRe")
+    #print (XRe)
 
     XIm = np.imag(first_half)
     #for i in spectrum:
@@ -99,12 +101,12 @@ def computeSpectrum(x, y):
     #    else:
     #        XIm.append(i)
         #spectrum[range(int(not (XRe)))] #imaginary
-    print("This is XIm")
-    print(XIm)
+    #print("This is XIm")
+    #print(XIm)
     f = np.arange(0, N)*y/N
     #frequency of bins
-    print ("this is f")
-    print (f)
+    #print ("this is f")
+    #print (f)
 
     return (XAbs, XPhase, XRe, XIm, f)
 
@@ -114,8 +116,93 @@ def generateBlocks(a, b, c, d):
     sample_rate_Hz = (b)
     block_size = (c)
     hop_size = (d)
-    
-    
+
+    createblocks = [x[i:i +block_size] for i in range(0, len(x), hop_size)]
+    if len(x) < (block_size):
+            createblocks = np.pad(i,(0,(len(x)-t))) #zero padding
+    #sig_splits = []
+    #for i in xrange(0, len(x), int((seconds - overlap) * rate)):
+    #    split = sig[i:i + int(seconds * rate)]
+
+    #    # End of signal?
+    #    if len(split) < int(minlen * rate):
+    #        break
+
+        # Signal chunk too short?
+    #    if len(split) < int(rate * seconds):
+    #        split = np.hstack((split, np.zeros((int(rate * seconds) - len(split),))))
+
+    #    sig_splits.append(split)
+    t = [item[0] for item in (createblocks)]
+    #print ('this is t')
+    #print (t)
+    lengtht= len(t)
+    #print ('this is length t')
+    #print (lengtht)
+    each = np.array(1)
+    for i in createblocks:
+        each = (i)
+        x = np.array([(block_size), (each)], dtype=object)
+
+    #print ('this is x')
+    #print (x)
+    return (t,x)
+
+    #t = #time stamps of blocks
+    # x = #matrix (blocksize x N) where each column is a block of the signal)
+
+
+def plotSpecgram(freq_vector, time_vector, magnitude_spectrogram):
+    if len(freq_vector) < 2 or len(time_vector) < 2:
+        return
+
+    Z = 20. * np.log10(magnitude_spectrogram)
+    Z = np.flipud(Z)
+
+    pad_xextent = (time_vector[1] - time_vector[0]) / 2
+    xmin = np.min(time_vector) - pad_xextent
+    xmax = np.max(time_vector) + pad_xextent
+    extent = xmin, xmax, freq_vector[0], freq_vector[-1]
+
+    im = plt.imshow(Z, None, extent=extent,
+                    origin='upper')
+    plt.axis('auto')
+    plt.show()
+
+
+def mySpecgram(a,b,c,d,e):
+    x = (a)
+    block_size = (b)
+    hop_size = (c)
+    sampling_rate_Hz = (d)
+    window_type = (e)
+    each = np.array(1)
+    lengthx = len(x)
+    #rectangle =
+    q,w = generateBlocks(x,sampling_rate_Hz, block_size, hop_size)
+    N = len(q)
+    a,b,c,d,e = computeSpectrum(x,x)
+    for i in x:
+        each = (i)
+        a,b,c,d,e = computeSpectrum(x, sampling_rate_Hz)
+        freq_vector = np.array([(block_size)/2, 1])
+        magnitude_spectrogram = np.array([(block_size / 2), a], dtype=object)
+    print ("this is mag")
+    print (magnitude_spectrogram)
+    time_vector = np.array([block_size / 2, N])
+    window = np.hanning(lengthx)
+    #plt.figure()
+
+    mag = (magnitude_spectrogram)
+    freq = (e)
+    plot = plotSpecgram(freq_vector, time_vector, mag)
+    #plt.plot(freq, mag)
+    #plt.title("Frequency response of Hanning window")
+    #plt.ylabel("Magnitude [dB]")
+    #plt.xlabel("Normalized frequency [cycles per sample]")
+    #plt.axis("tight")
+
+    return (freq_vector, time_vector, magnitude_spectrogram)
 
 
 if __name__ == '__main__':
@@ -142,12 +229,17 @@ if __name__ == '__main__':
     plt.show()
     print ("this is X")
     print (x)
-    
+    lennx = len(x)
+    print (lennx)
     a, b, c, d, e = computeSpectrum((x),44100)
     a2, b2, c2, d2, e2 = computeSpectrum((x2),44100)
-    lengthx= len(x)
+    lengthx= len(e)
     print (lengthx)
-    a = np.zeros()
+    #a = padarray([a], 25000)
+    #e = padarray([e], 25000)
+    #a = np.pad((a),(0,22050, 'constant'))
+    print ("This is a")
+    print (a)
     fig, (ax1, ax2) = plt.subplots(1, 2)
     ax1.set_title('Sinusoidal - Magnitude')
     ax1.set_xlabel('Frequency')
@@ -170,3 +262,6 @@ if __name__ == '__main__':
     ax4.set_ylabel('Phase Spectra')
     ax4.set_xlim(0,4000)
     ax4.plot(e2, b2)
+    plt.show()
+    t,x = generateBlocks(x, 44100, 2048, 1024)
+    a3,b3,c3 = mySpecgram(x2, 2048, 1024, 44100, 'rect')
