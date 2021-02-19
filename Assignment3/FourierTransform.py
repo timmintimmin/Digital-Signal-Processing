@@ -134,18 +134,32 @@ def generateBlocks(a, b, c, d):
 
     #    sig_splits.append(split)
     t = [item[0] for item in (createblocks)]
-    #print ('this is t')
-    #print (t)
+    print ('this is t')
+    print (t)
     lengtht= len(t)
-    #print ('this is length t')
-    #print (lengtht)
+    print ('this is length t')
+    print (lengtht)
     each = np.array(1)
-    for i in createblocks:
-        each = (i)
-        x = np.array([(block_size), (each)], dtype=object)
+    X_array =[]
+    for i in (createblocks):
+        x = i
+        X_array.append(x)
+    #m1 = createblocks[1]
+    #r1 = np.array([2048,[m1]], dtype=object)
+    #m2 = createblocks[2]
+    #r2 = np.array([2048,[m2]], dtype=object)
+   # x = np.concatenate(r1,r2)
+        #for item[2] in x:
+       # for i in createblocks:
+        #    item[2]= (i)
+    #for i in createblocks:
+     #   x[2048,i] = np.hstack(i)
+        #each = (i)
+        #x = np.array([(block_size), (each)])
+    x = (X_array)
 
-    #print ('this is x')
-    #print (x)
+    print ('this is x')
+    print (x)
     return (t,x)
 
     #t = #time stamps of blocks
@@ -171,6 +185,7 @@ def plotSpecgram(freq_vector, time_vector, magnitude_spectrogram):
 
 
 def mySpecgram(a,b,c,d,e):
+    global freq_vector
     x = (a)
     block_size = (b)
     hop_size = (c)
@@ -180,17 +195,26 @@ def mySpecgram(a,b,c,d,e):
     lengthx = len(x)
     #rectangle =
     q,w = generateBlocks(x,sampling_rate_Hz, block_size, hop_size)
+    print ('this is q')
+    print (q)
     N = len(q)
+    window = np.hanning(N)
+    print (window)
+    print ('this is window')
+    windowed = np.multiply(N, w, dtype=object)
+    magnitude_spectrogram = np.array([(block_size / 2)])
     a,b,c,d,e = computeSpectrum(x,x)
-    for i in x:
+    for i in windowed:
         each = (i)
-        a,b,c,d,e = computeSpectrum(x, sampling_rate_Hz)
+        a,b,c,d,e = computeSpectrum(i, sampling_rate_Hz)
         freq_vector = np.array([(block_size)/2, 1])
-        magnitude_spectrogram = np.array([(block_size / 2), a], dtype=object)
+        magnitude_spectrogram= np.append(magnitude_spectrogram, a)
+
     print ("this is mag")
     print (magnitude_spectrogram)
+
     time_vector = np.array([block_size / 2, N])
-    window = np.hanning(lengthx)
+
     #plt.figure()
 
     mag = (magnitude_spectrogram)
@@ -264,4 +288,4 @@ if __name__ == '__main__':
     ax4.plot(e2, b2)
     plt.show()
     t,x = generateBlocks(x, 44100, 2048, 1024)
-    a3,b3,c3 = mySpecgram(x2, 2048, 1024, 44100, 'rect')
+    a3,b3,c3 = mySpecgram(x2, 2048, 1024, 44100, 'hann')
