@@ -80,19 +80,24 @@ def computeSpectrum(x, y):
     XAbs = np.abs(spectrum)#magnitude spectrum/amplitude
     print ("this is XAbs")
     print (XAbs)
+    length = len(spectrum)
+    middle_index = length//2
+
+
+    first_half = (spectrum)[:middle_index]
     XPhase = np.angle(spectrum) #phase spectrum
     print ("this is XPhase")
     print (XPhase)
-    XRe = spectrum[range(int((len_x)/2))] #real part
+    XRe = np.real(first_half) #real part
     print ("This is XRe")
     print (XRe)
-    XIm = []
-    for i in spectrum:
-        if i in XRe:
-            continue
-        else:
-            XIm.append(i)
-    return XIm
+
+    XIm = np.imag(first_half)
+    #for i in spectrum:
+    #    if i in XRe:
+    #        continue
+    #    else:
+    #        XIm.append(i)
         #spectrum[range(int(not (XRe)))] #imaginary
     print("This is XIm")
     print(XIm)
@@ -103,6 +108,14 @@ def computeSpectrum(x, y):
 
     return (XAbs, XPhase, XRe, XIm, f)
 
+
+def generateBlocks(a, b, c, d):
+    x = (a)
+    sample_rate_Hz = (b)
+    block_size = (c)
+    hop_size = (d)
+    
+    
 
 
 if __name__ == '__main__':
@@ -127,5 +140,33 @@ if __name__ == '__main__':
     plt.ylabel("Generated Signal")
     plt.xlabel("Time")
     plt.show()
-    (a, b, c, d, e) = computeSpectrum((x),44100)
-    #(XAbs, XPhase, XRe, XIm, f) = computeSpectrum((x2),44100)
+    print ("this is X")
+    print (x)
+    
+    a, b, c, d, e = computeSpectrum((x),44100)
+    a2, b2, c2, d2, e2 = computeSpectrum((x2),44100)
+    lengthx= len(x)
+    print (lengthx)
+    a = np.zeros()
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    ax1.set_title('Sinusoidal - Magnitude')
+    ax1.set_xlabel('Frequency')
+    ax1.set_ylabel('Magnitude Spectra')
+    #ax1.set_xlim(43600,43800)
+    ax1.plot(e, a)
+    ax2.set_title('Sinusoidal - Phase')
+    ax2.set_xlabel('Frequency')
+    ax2.set_ylabel('Phase Spectra')
+    ax2.set_xlim(0,4000)
+    ax2.plot(e, b)
+    fig, (ax3, ax4) = plt.subplots(1, 2)
+    ax3.set_title('Square - Magnitude')
+    ax3.set_xlabel('Frequency')
+    ax3.set_ylabel('Magnitude Spectra')
+    #ax3.set_xlim(0,1400)
+    ax3.plot(e2, a2)
+    ax4.set_title('Square - Phase')
+    ax4.set_xlabel('Frequency')
+    ax4.set_ylabel('Phase Spectra')
+    ax4.set_xlim(0,4000)
+    ax4.plot(e2, b2)
