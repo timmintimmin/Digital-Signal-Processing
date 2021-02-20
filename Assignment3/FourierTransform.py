@@ -128,15 +128,12 @@ def generateBlocks(a, b, c, d):
     #sig_splits = []
     #for i in xrange(0, len(x), int((seconds - overlap) * rate)):
     #    split = sig[i:i + int(seconds * rate)]
-
     #    # End of signal?
     #    if len(split) < int(minlen * rate):
     #        break
-
         # Signal chunk too short?
     #    if len(split) < int(rate * seconds):
     #        split = np.hstack((split, np.zeros((int(rate * seconds) - len(split),))))
-
     #    sig_splits.append(split)
     t = [item[0] for item in (createblocks)]
     print ('this is t')
@@ -149,22 +146,9 @@ def generateBlocks(a, b, c, d):
     for i in (createblocks):
         x = i
         X_array.append(x)
-    #m1 = createblocks[1]
-    #r1 = np.array([2048,[m1]], dtype=object)
-    #m2 = createblocks[2]
-    #r2 = np.array([2048,[m2]], dtype=object)
-   # x = np.concatenate(r1,r2)
-        #for item[2] in x:
-       # for i in createblocks:
-        #    item[2]= (i)
-    #for i in createblocks:
-     #   x[2048,i] = np.hstack(i)
-        #each = (i)
         #x = np.array([(block_size), (each)])
     x = (X_array)
-
     print ('this is x')
-
     print (x)
     print ('this is lengthx')
 
