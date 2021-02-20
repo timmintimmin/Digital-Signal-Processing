@@ -1,0 +1,1 @@
+3.4?Sinusoidal = 1st bin = 400				2nd bin = 43700	Frequency Resolution of Sinusoidal FFT = 43300Square = 1st Bin = 400		2nd Bin  = 1200	Frequency Resolution of Square FFT = 8003.5	With more zero padding, we increase the length that is observed. Therefore we actually receive a more accurate depiction. 4.5
