@@ -318,3 +318,16 @@ if __name__ == '__main__':
     plt.show()
     t,x = generateBlocks(x, 44100, 2048, 1024)
     a3,b3,c3 = mySpecgram(x2, 2048, 1024, 44100, 'hann')
+
+
+
+#Sine Sweep
+x = SineSweep(t, f0, t1, f1)
+# t = timebase array
+#f0 = frequency at time 0
+#f1 = freqeuncy at time 1
+
+t0 = t(1)
+T = t1 - t0
+k = (f1 - f0) / T
+x = cos(2 * pi * (k / 2 * t + f0). * t)
