@@ -2,6 +2,7 @@ import numpy as np
 from scipy.linalg import circulant
 import scipy.signal as signal
 import wave
+import soundfile as sf
 import struct
 import matplotlib.pyplot as plt
 
@@ -75,10 +76,10 @@ def Flanger():
 
 def Chorus():
     # Simple Chorus
-    x, sr = sf.read('input/sv.wav')
+    x, sr = sf.read('Water-Dripping-A4-www.fesliyanstudios.com.wav')
     x = LinearWrap(x)
 
-    output = 'output/sv_simpleChorus.wav'
+    output = 'Chorused.wav'
 
     fmod = 1.5
     A = int(0.002 * sr)
@@ -214,7 +215,7 @@ def SpaceAgeReverb():
     nchannels = 2
     sampwidth = 2
 
-    wav_file_write = wave.open('filename_out.wav', 'w')
+    wav_file_write = wave.open('reverbed.wav', 'w')
     wav_file_write.setparams((nchannels, sampwidth, int(frame_rate), nframes_reverb, comptype, compname))
 
     for s in range(nframes_reverb):
@@ -225,3 +226,4 @@ def SpaceAgeReverb():
 
 if __name__ == "__main__":
     SpaceAgeReverb()
+    Chorus()
