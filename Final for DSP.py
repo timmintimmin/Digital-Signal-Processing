@@ -146,7 +146,7 @@ def SpaceAgeReverb():
 
 #    WAV FILE    #
 
-    sample_in = 'filename.wav'
+    sample_in = 'Water-Dripping-A4-www.fesliyanstudios.com.wav'
     frame_rate = 44100.0
 
     wav_file = wave.open(sample_in, 'r')
@@ -224,5 +224,4 @@ def SpaceAgeReverb():
 
 
 if __name__ == "__main__":
-    wave.open()
     SpaceAgeReverb()
