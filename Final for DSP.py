@@ -4,7 +4,55 @@ import scipy.signal as signal
 import wave
 import soundfile as sf
 import struct
+import math
+from IPython.display import Audio
 import matplotlib.pyplot as plt
+
+
+class LinearWrap(object):
+    def __init__(self, it):
+        self.it = it
+
+    def __len__(self):
+        return len(self.it)
+
+    def __setitem__(self, inI, val):
+        if type(inI) != int:
+            raise RuntimeError('Can only write to integer values')
+        self.it[inI] = val
+
+    def __getitem__(self, inI):
+        loI = math.floor(inI)
+        hiI = math.ceil(inI)
+        a = inI - loI
+        inRange = lambda val: val >= 0 and val < len(self.it)
+        loX = self.it[loI] if inRange(loI) else 0
+        hiX = self.it[hiI] if inRange(hiI) else 0
+        return loX * (1 - a) + hiX * a
+
+
+
+class RingBuffer(object):
+    def __init__(self, maxDelay):
+        self.maxDelay = maxDelay + 1
+        self.buf = np.zeros(self.maxDelay)
+        self.writeInd = 0
+
+    def pushSample(self, s):
+        self.buf[self.writeInd] = s
+        self.writeInd = (self.writeInd + 1) % len(self.buf)
+
+    def delayedSample(self, d):
+        d = min(self.maxDelay - 1, max(0, d))
+        i = ((self.writeInd + self.maxDelay) - d) % self.maxDelay
+        return self.buf[i]
+
+
+class LinearRingBuffer(RingBuffer):
+    def __init__(self, maxDelay):
+        self.maxDelay = maxDelay + 1
+        self.buf = LinearWrap(np.zeros(self.maxDelay))
+        self.writeInd = 0
 
 def damping_filter_coeffs(delays, t_60, alpha):
     element_1 = np.log(10) / 4
@@ -40,10 +88,10 @@ def tonal_correction_filter(input_signal, alpha):
 
 def Flanger():
     # Simple Flanger
-    x, sr = sf.read('input/sv.wav')
+    x, sr = sf.read('Water-Dripping-A4-www.fesliyanstudios.com.wav')
     x = LinearWrap(x)
 
-    output = 'output/sv_simpleFlanger.wav'
+    output = 'Flanged.wav'
 
     fmod = 0.2
     A = int(0.002 * sr)
@@ -227,3 +275,4 @@ def SpaceAgeReverb():
 if __name__ == "__main__":
     SpaceAgeReverb()
     Chorus()
+    Flanger()
